@@ -32,7 +32,7 @@ To get a newer version later, run `/plugin update airquote@airquote`.
 
 | Setting | Default | What it does |
 |---|---|---|
-| **Rewrite mode** (`mode`) | `enhance` | `clean`: removes filler, fixes punctuation and applies your mid-sentence corrections. Your words, order and tone stay.<br>`enhance`: the same, then lays it out for easier reading (sentences, paragraphs, a list if you clearly listed things), using only your own words. If a dictation is too unclear to lay out, it is only cleaned and you see a short message.<br>`off`: no rewrite. Claude is still told the prompt was spoken. |
+| **Rewrite mode** (`mode`) | `enhance` | `clean`: removes filler, fixes punctuation and applies your mid-sentence corrections. Your words, order and tone stay.<br>`enhance`: the same, then lays it out for easier reading (sentences, paragraphs, a list if you clearly listed things), using only your own words. If a dictation is too unclear to lay out, it is only cleaned.<br>`off`: no rewrite. Claude is still told the prompt was spoken. |
 | **Rewrite model** (`model`) | `haiku` | `haiku`, `sonnet` or `opus`. Haiku is fastest. Sonnet and Opus are slower and use more of your plan's usage. |
 | **Personal dictionary** (`dictionary`) | empty | Words to always spell exactly, separated by commas. Example: `Kubernetes, Tailwind, Acme Cloud` |
 | **Extra rewrite instructions** (`instructions`) | empty | Your own rules for the style of the rewrite. Example: `Keep my casual tone. Use British English.` They can't add, drop or change what you said. |

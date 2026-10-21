@@ -303,9 +303,6 @@ export const register: Register = (on, options) => {
     if (result === null || text === null || text === e.text.trim()) {
       return passOn(`voice, ${mode}, kept as spoken${failure === '' ? '' : ` (${failure})`}`)
     }
-    if (result.unclear) {
-      $.ui.toast('Airquote: the dictation was unclear, so it was only cleaned up, not restructured.')
-    }
     record(`voice, ${mode}${result.unclear ? ', unclear: cleaned only' : ''}`, said)
     await remember($, [text], { from: e.text, to: text })
 

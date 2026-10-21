@@ -198,13 +198,12 @@ describe('settings', () => {
     expect(s.sent[0]?.context.join('\n')).not.toContain(SPEECH)
   })
 
-  test('an unclear dictation in enhance mode is cleaned only, with a toast', async ($, on) => {
+  test('an unclear dictation in enhance mode is cleaned only, without a toast', async ($, on) => {
     const s = engine(on, '<cleaned>so the, the thing it broke when I did the other one</cleaned>')
     await start($)
     await submit($, SPEECH)
     expect(s.sent[0]?.text).toBe('so the, the thing it broke when I did the other one')
-    expect(s.toasts.length).toBe(1)
-    expect(s.toasts[0]).toContain('unclear')
+    expect(s.toasts).toEqual([])
     expect(s.sent[0]?.context.join('\n')).toContain('before Airquote cleaned it')
   })
 
