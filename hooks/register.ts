@@ -276,7 +276,6 @@ export const register: Register = (on, options) => {
     const { spoken: marked, blocks } = protect(e.text, pasted)
     const { head, body: dictated, tail } = edges(marked)
 
-    $.ui.status(mode === 'enhance' ? 'Airquote: enhancing dictation…' : 'Airquote: cleaning dictation…')
     let reply: string | null = null
     let failure = ''
     try {
@@ -293,8 +292,6 @@ export const register: Register = (on, options) => {
       else failure = r.reason
     } catch {
       failure = 'call refused' // e.g. the model is blocked: still send the voice note
-    } finally {
-      $.ui.status(undefined)
     }
 
     const result = reply === null ? null : extractRewrite(reply)

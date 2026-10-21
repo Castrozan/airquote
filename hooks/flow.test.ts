@@ -12,6 +12,7 @@ function engine(on: On, reply: string | null, surfaces: string[] = ['terminal'],
   const asked: string[] = []
   const calls: { model: string; timeoutMs?: number }[] = []
   const toasts: string[] = []
+  const statuses: unknown[] = []
   let box = ''
 
   on('session.start', ($, e) => ({ cwd: e.cwd, startedAt: 0 }) as never)
@@ -27,7 +28,10 @@ function engine(on: On, reply: string | null, surfaces: string[] = ['terminal'],
     box = ''
     return { text: e.text, context: e.context }
   })
-  on('ui.status', () => ({ value: undefined }) as never)
+  on('ui.status', ($, e) => {
+    statuses.push(e)
+    return { value: undefined } as never
+  })
   on('ui.toast', ($, e) => {
     toasts.push(String((e as { text?: unknown }).text ?? e))
     return { value: undefined } as never
@@ -51,7 +55,7 @@ function engine(on: On, reply: string | null, surfaces: string[] = ['terminal'],
     const value = reply === null ? { isAnswered: false, reason: 'empty-reply', usage } : { isAnswered: true, text: reply, usage }
     return { value } as never
   })
-  return { sent, asked, calls, toasts, state, setBox: (t: string) => (box = t) }
+  return { sent, asked, calls, toasts, statuses, state, setBox: (t: string) => (box = t) }
 }
 
 const start = ($: Engine) => $.session.start({ cwd: '/repo', surface: 'terminal', isInteractive: true } as never)
@@ -207,11 +211,12 @@ describe('settings', () => {
     expect(s.sent[0]?.context.join('\n')).toContain('before Airquote cleaned it')
   })
 
-  test('a clear dictation shows no toast', async ($, on) => {
+  test('a clear dictation shows no toast and no status', async ($, on) => {
     const s = engine(on, `<rewrite>${CLEAN}</rewrite>`)
     await start($)
     await submit($, SPEECH)
     expect(s.toasts.length).toBe(0)
+    expect(s.statuses).toEqual([])
   })
 })
 
